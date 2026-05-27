@@ -19,24 +19,25 @@ while True:
         
 tamanho = (1000,700)
 pygame.display.set_caption("pensamento computacional")
-icone  = pygame.image.load("assets/icone.png")
+icone  = pygame.image.load("bases/navio.png")
 pygame.display.set_icon(icone)
 relogio = pygame.time.Clock()
 tela = pygame.display.set_mode( tamanho ) 
 branco = (255, 255, 255)
 preto = (0, 0, 0)
 
-fundo = pygame.image.load("assets/background.jpg")
-fundoDead = pygame.image.load("assets/backgroundDead.jpg")
-fundoStart = pygame.image.load("assets/backgroundStart.jpg")
+fundo = pygame.image.load("bases/ceu.png")
+fundoDead = pygame.image.load("bases/game_over.png")
+fundoStart = pygame.image.load("bases/telaStart.png")
+fundoStart = pygame.transform.scale(fundoStart, (1000,700))
 
-iron = pygame.image.load("assets/IronMan.png")
+iron = pygame.image.load("bases/navio.png")
 iron = pygame.transform.scale(iron, (116,51))
-missel = pygame.image.load("assets/missile.png")
+missel = pygame.image.load("bases/bala_de_canhao.png")
 missel = pygame.transform.scale(missel, (125,25))
-missileSound = pygame.mixer.Sound("assets/missile.wav")
-explosaoSound = pygame.mixer.Sound("assets/explosao.wav")
-pygame.mixer.music.load("assets/ironsound.mp3")
+balaDecanhao = pygame.mixer.Sound("bases/bala_de_canhao_som.mp3")
+derrotaSom = pygame.mixer.Sound("bases/derrota.mp3")
+pygame.mixer.music.load("bases/somPirata.mp3")
 fonteMenu = pygame.font.SysFont("comicsans",18)
 
 def jogar():
@@ -51,7 +52,7 @@ def jogar():
     posicaoYMissel = 100
     velocidadeMissel = 2
     pontos = 0
-    pygame.mixer.Sound.play(missileSound)
+    pygame.mixer.Sound.play(balaDecanhao)
     pygame.mixer.music.play(-1)
     dificuldade = 20
     while True:
@@ -91,7 +92,7 @@ def jogar():
             
         posicaoXMissel = posicaoXMissel - velocidadeMissel
         if posicaoXMissel < -125:
-            pygame.mixer.Sound.play(missileSound)
+            pygame.mixer.Sound.play(balaDecanhao)
             posicaoXMissel = 800
             pontos = pontos + 1
             velocidadeMissel = velocidadeMissel + 1
@@ -133,7 +134,7 @@ def jogar():
 
 def dead():
     pygame.mixer.music.stop()
-    pygame.mixer.Sound.play(explosaoSound)
+    pygame.mixer.Sound.play(derrotaSom)
     larguraButtonStart = 150
     alturaButtonStart  = 40
     larguraButtonQuit = 150
@@ -216,6 +217,8 @@ def start():
         startButton = pygame.draw.rect(tela, branco, (10,10, larguraButtonStart, alturaButtonStart), border_radius=15)
         startTexto = fonteMenu.render("Iniciar Game", True, preto)
         tela.blit(startTexto, (25,12))
+        textoJogador = fonteMenu.render(f"Bem-vindo, {nome}!", True, branco)
+        tela.blit(textoJogador, (400, 370))
         
         quitButton = pygame.draw.rect(tela, branco, (10,60, larguraButtonQuit, alturaButtonQuit), border_radius=15)
         quitTexto = fonteMenu.render("Sair do Game", True, preto)
