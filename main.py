@@ -182,8 +182,8 @@ def dead():
 
 
 def start():
-    larguraButtonStart = 150
-    alturaButtonStart  = 40
+    larguraButtonStart = 260
+    alturaButtonStart  = 70
     larguraButtonQuit = 150
     alturaButtonQuit  = 40
     while True:
@@ -192,11 +192,8 @@ def start():
                 quit()
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if startButton.collidepoint(evento.pos):
-                    larguraButtonStart = 140
-                    alturaButtonStart  = 35
-                if quitButton.collidepoint(evento.pos):
-                    larguraButtonQuit = 140
-                    alturaButtonQuit  = 35
+                    larguraButtonStart = 360
+                    alturaButtonStart  = 460
 
                 
             elif evento.type == pygame.MOUSEBUTTONUP:
@@ -206,26 +203,15 @@ def start():
                     larguraButtonStart = 150
                     alturaButtonStart  = 40
                     jogar()
-                if quitButton.collidepoint(evento.pos):
-                    #pygame.mixer.music.play(-1)
-                    larguraButtonQuit = 150
-                    alturaButtonQuit  = 40
-                    quit()
+
             
         tela.fill(branco)
         tela.blit(fundoStart, (0,0))
-        startButton = pygame.draw.rect(tela, branco, (10,10, larguraButtonStart, alturaButtonStart), border_radius=15)
+        startButton = pygame.draw.rect(tela, branco, (360,460, larguraButtonStart, alturaButtonStart), border_radius=15)
         startTexto = fonteMenu.render("Iniciar Game", True, preto)
         tela.blit(startTexto, (25,12))
         textoJogador = fonteMenu.render(f"Bem-vindo, {nome}!", True, branco)
-        tela.blit(textoJogador, (400, 370))
-        
-        quitButton = pygame.draw.rect(tela, branco, (10,60, larguraButtonQuit, alturaButtonQuit), border_radius=15)
-        quitTexto = fonteMenu.render("Sair do Game", True, preto)
-        tela.blit(quitTexto, (25,62))
-        texto = fonteMenu.render(f"The Best - {nome_maior} - {maior_pontos} - { dataJogada} ", True, branco)
-        tela.blit(texto, (480,15))
-        
+        tela.blit(textoJogador, (400, 390))        
 
         pygame.display.update()
         relogio.tick(60)
