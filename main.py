@@ -20,14 +20,20 @@ while True:
 tamanho = (1000,700)
 pygame.display.set_caption("pensamento computacional")
 icone  = pygame.image.load("bases/navio.png")
+
 pygame.display.set_icon(icone)
 relogio = pygame.time.Clock()
+
 tela = pygame.display.set_mode( tamanho ) 
+
 branco = (255, 255, 255)
 
 preto = (0, 0, 0)
 
 fundo = pygame.image.load("bases/ceu.png")
+fundo = pygame.transform.scale(fundo, (2500, 700))
+fundoX = 0
+
 fundoDead = pygame.image.load("bases/game_over.png")
 fundoDead = pygame.transform.scale(fundoDead, (1000,700))
 
@@ -50,9 +56,6 @@ fonteMenu = pygame.font.SysFont("comicsans",18)
 
 def jogar():
 
-    fundoMov1 = 0
-    fundoMov2 = 1129
-
     posicaoXPersona = 50
     posicaoYPersona = 60
 
@@ -60,11 +63,11 @@ def jogar():
     velocidadeMovPersona = 5
 
     posicaoXMissel = 800
-    posicaoYMissel = 100
-    velocidadeMissel = 20
+    posicaoYMissel = 1000
+    velocidadeMissel = 4
 
     posicaoXNuvem = random.randint(0, 900)
-    posicaoYNuvem = random.randint(20, 180)
+    posicaoYNuvem = random.randint(20, 650)
     velocidadeNuvem = random.randint(1, 3)
 
     pontos = 0
@@ -110,11 +113,7 @@ def jogar():
 
             fontePause = pygame.font.SysFont("comicsans", 80)
 
-            textoPause = fontePause.render(
-                "PAUSE",
-                True,
-                branco
-            )
+            textoPause = fontePause.render("PAUSE",True,branco)
 
             tela.blit(textoPause, (330, 280))
 
@@ -129,8 +128,8 @@ def jogar():
         if posicaoYPersona < 0:
             posicaoYPersona = 0
 
-        elif posicaoYPersona > 150:
-            posicaoYPersona = 150
+        elif posicaoYPersona > 600:
+            posicaoYPersona = 600
 
         posicaoXMissel -= velocidadeMissel
 
@@ -142,25 +141,25 @@ def jogar():
 
             pontos += 1
 
-            velocidadeMissel += 1
+            velocidadeMissel += 2
 
-            posicaoYMissel = random.randint(0, 200)
+            posicaoYMissel = random.randint(0, 600)
 
 
         posicaoXNuvem -= velocidadeNuvem
 
-        if posicaoXNuvem < -120:
+        if posicaoXNuvem < -220:
 
             posicaoXNuvem = 1000
 
-            posicaoYNuvem = random.randint(20, 180)
+            posicaoYNuvem = random.randint(20, 650)
 
             velocidadeNuvem = random.randint(1, 3)
 
         if crescendo:
-            raioBussola += 0.1
+            raioBussola += 0.5
         else:
-            raioBussola -= 0.1
+            raioBussola -= 0.5
 
         if raioBussola >= 40:
             crescendo = False
@@ -170,50 +169,26 @@ def jogar():
     
         tela.fill(branco)
 
-        tela.blit(fundo, (fundoMov1, 0))
-        tela.blit(fundo, (fundoMov2, 0))
+        tela.blit(fundo, (fundoX, 0))
 
-        pygame.draw.circle(
-            tela,
-            (255, 215, 0),
-            (900, 90),
-            int(raioBussola + 8)
-        )
+        fundoMov1 -= 2
+        fundoMov2 -= 2
 
-        pygame.draw.circle(
-            tela,
-            (180, 140, 0),
-            (900, 90),
-            int(raioBussola)
-        )
+        pygame.draw.circle(tela,(255, 215, 0),(900, 90),int(raioBussola + 8))
 
-        pygame.draw.circle(
-            tela,
-            branco,
-            (900, 90),
-            5
-        )
+        pygame.draw.circle(tela,(180, 140, 0),(900, 90),int(raioBussola))
+
+        pygame.draw.circle(tela,branco,(900, 90),5)
      
         x_agulha = 900 + math.cos(math.radians(angulo)) * 25
         y_agulha = 90 + math.sin(math.radians(angulo)) * 25
 
-        pygame.draw.line(
-            tela,
-            (255, 0, 0),
-            (900, 90),
-            (x_agulha, y_agulha),
-            4
-        )
+        pygame.draw.line(tela,(255, 0, 0),(900, 90),(x_agulha, y_agulha),4)
 
+        fundoX -= 1
 
-        fundoMov1 -= 1
-        fundoMov2 -= 1
-
-        if fundoMov1 <= -1129:
-            fundoMov1 = 1129
-
-        elif fundoMov2 <= -1129:
-            fundoMov2 = 1129
+        if fundoX <= -1000:
+            fundoX = 0
 
         tela.blit(nuvem, (posicaoXNuvem, posicaoYNuvem))
         
@@ -221,21 +196,13 @@ def jogar():
 
         tela.blit(missel, (posicaoXMissel, posicaoYMissel))
 
-        texto = fonteMenu.render(
-            "Pontos: " + str(pontos),
-            True,
-            branco
-        )
+        texto = fonteMenu.render("Pontos: " + str(pontos),True,branco)
 
-        tela.blit(texto, (700, 15))
+        tela.blit(texto, (850, 15))
 
         fontePequena = pygame.font.SysFont("arial", 16)
 
-        textoPauseInfo = fontePequena.render(
-            "Press Space to Pause Game",
-            True,
-            branco
-        )
+        textoPauseInfo = fontePequena.render("Press Space to Pause Game",True,branco)
 
         tela.blit(textoPauseInfo, (10, 670))
 
@@ -275,7 +242,7 @@ def dead():
             pygame.mixer.stop()
             pygame.mixer.music.stop()
 
-            pygame.time.delay(300)
+            pygame.time.delay(50)
 
             voz.say("Game Over")
             voz.runAndWait()
@@ -320,8 +287,7 @@ def dead():
 
         tela.blit(fundoDead, (0, 0))
 
-        textoRecorde = fonteMenu.render(
-        f"{nome_maior} - {maior_pontos} pontos",True,branco)
+        textoRecorde = fonteMenu.render(f"{nome_maior} - {maior_pontos} pontos",True,branco)
 
 
         tela.blit(textoRecorde, (790, 120))
@@ -335,12 +301,7 @@ def start():
 
     while True:
 
-        startButton = pygame.Rect(
-            370,
-            startY,
-            260,
-            70
-        )
+        startButton = pygame.Rect(370,startY,260,70)
 
         for evento in pygame.event.get():
 
@@ -370,27 +331,15 @@ def start():
 
         tela.blit(fundoStart, (0, 0))
 
-        startTexto = fonteMenu.render(
-            "",
-            True,
-            preto
-        )
+        startTexto = fonteMenu.render("",True,preto)
 
         tela.blit(startTexto, (445, startY + 20))
 
-        textoJogador = fonteMenu.render(
-            f"Bem-vindo, {nome}!",
-            True,
-            branco
-        )
+        textoJogador = fonteMenu.render(f"Bem-vindo, {nome}!",True,branco)
 
         tela.blit(textoJogador, (400, 390))
 
-        pause = fonteMenu.render(
-            "Press Space to Pause Game",
-            True,
-            branco
-        )
+        pause = fonteMenu.render("Press Space to Pause Game",True,branco)
 
         tela.blit(pause, (20, 660))
 
