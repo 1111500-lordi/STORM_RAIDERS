@@ -49,6 +49,7 @@ def escreverDados(nome, pontos):
     # END - inserindo no arquivo
     
 def maior_pontuador():
+
     banco = open("log.dat","r")
     dados = banco.read()
     banco.close()
@@ -71,3 +72,4 @@ def maior_pontuador():
             dataJogada = info[1]            
 
     return nome_maior, maior_pontos, dataJogada
+
