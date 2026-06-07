@@ -318,9 +318,17 @@ def dead():
 
 def start():
 
+    falou_boas_vindas = False
+
     startY = 460
 
     while True:
+
+        if not falou_boas_vindas:
+            voz.say(f"Bem vindo ao Storm Raiders, {nome}")
+            voz.runAndWait()
+
+            falou_boas_vindas = True
 
         ranking = top3()
 
