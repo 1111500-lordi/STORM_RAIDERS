@@ -9,10 +9,15 @@ limpar_tela()
 inicializarBancoDeDados()
 nome_maior, maior_pontos, dataJogada = maior_pontuador()
 pygame.init()
-voz = pyttsx3.init()
+
+try:
+    voz = pyttsx3.init()
+except Exception as erro:
+    print("Erro ao iniciar voz:", erro)
+    voz = None
 
 while True:
-    nome = input("Qual o seu nome marinheiro?: ")
+    nome = input("Qual o seu nome marinheiro?: ") 
     if len(nome) > 0: 
         break
     else:
@@ -230,17 +235,16 @@ def jogar():
         relogio.tick(60)
 
 def dead():
-
-    startY = 500
-    menuY = 570
+    
 
     falou_game_over = False
 
     while True:
-
-        startButton = pygame.Rect(350,startY,300,50)
-
-        menuButton = pygame.Rect(350,menuY,300,50)
+        startButton = pygame.Rect(328, 495, 339, 65)
+        menuButton = pygame.Rect(328, 573, 339, 67)
+        
+        pygame.draw.rect(tela, (255,0,0), startButton, 2)
+        pygame.draw.rect(tela, (0,255,0), menuButton, 2)
 
         if not falou_game_over:
 
@@ -249,8 +253,12 @@ def dead():
 
             pygame.time.delay(50)
 
-            voz.say("Game Over")
-            voz.runAndWait()
+            if voz:
+                try:
+                    voz.say("Game Over")
+                    voz.runAndWait()
+                except:
+                    pass
 
             derrotaSom.play()
 
@@ -324,11 +332,12 @@ def start():
 
     while True:
 
-        if not falou_boas_vindas:
-            voz.say(f"Bem vindo ao Storm Raiders, {nome}")
-            voz.runAndWait()
-
-            falou_boas_vindas = True
+        if voz:
+            try:
+                voz.say(f"Bem vindo ao Storm Raiders, {nome}")
+                voz.runAndWait()
+            except:
+                pass
 
         ranking = top3()
 
