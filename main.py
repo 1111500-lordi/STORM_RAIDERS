@@ -411,3 +411,5 @@ def start():
         relogio.tick(60)
            
 start()
+
+# commit da aura
