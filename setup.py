@@ -1,14 +1,34 @@
-from cx_Freeze import setup, Executable
+import cx_Freeze
 
 build_exe_options = {
+    "packages": [
+        "pygame",
+        "pyttsx3"
+    ],
+    "includes": [
+        "pyttsx3.drivers",
+        "pyttsx3.drivers.sapi5"
+    ],
     "include_files": [
-        "bases"
+        "bases",
+        "recursos"
     ]
 }
 
-setup(
-    name="Storm Raiders",
+executaveis = [
+    cx_Freeze.Executable(
+        script="main.py",
+        icon="bases/Icone.ico",
+        target_name="StormRaiders.exe"
+    )
+]
+
+cx_Freeze.setup(
+    name="STORM RAIDERS",
     version="1.0",
-    options={"build_exe": build_exe_options},
-    executables=[Executable("main.py")]
+    description="Jogo de piratas",
+    options={
+        "build_exe": build_exe_options
+    },
+    executables=executaveis
 )

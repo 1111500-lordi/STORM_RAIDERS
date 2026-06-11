@@ -1,5 +1,6 @@
+README.md
 setup.py
-Storm_Raiders.egg-info/PKG-INFO
-Storm_Raiders.egg-info/SOURCES.txt
-Storm_Raiders.egg-info/dependency_links.txt
-Storm_Raiders.egg-info/top_level.txt
+STORM_RAIDERS.egg-info/PKG-INFO
+STORM_RAIDERS.egg-info/SOURCES.txt
+STORM_RAIDERS.egg-info/dependency_links.txt
+STORM_RAIDERS.egg-info/top_level.txt
